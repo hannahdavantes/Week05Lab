@@ -36,7 +36,7 @@ public class ShoppingListServlet extends HttpServlet
         String name = request.getParameter("usernameInput");
 
         //ArrayList to store items
-        ArrayList<String> list = null;
+        ArrayList<String> list;
 
         if (action.equals("register"))
           {
@@ -52,6 +52,7 @@ public class ShoppingListServlet extends HttpServlet
           } 
         else if (action.equals("add"))
           {
+            list = (ArrayList<String>) session.getAttribute("list");
             if (list == null)
               {
                 list = new ArrayList<>();
@@ -60,8 +61,8 @@ public class ShoppingListServlet extends HttpServlet
             //get item from textbox
             String item = request.getParameter("itemInput");
             list.add(item);
-            session.setAttribute("shoplist", list);
-            getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+            session.setAttribute("list", list);
+            getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
 
           }
 
