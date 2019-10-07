@@ -43,7 +43,7 @@ public class ShoppingListServlet extends HttpServlet
             session.setAttribute("username", name);
             request.setAttribute("user", name);
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
-          } else if (action.equals(""))
+          } else if (action.equals("logout"))
           {
             session.removeAttribute("username");
             session.invalidate();
@@ -60,7 +60,8 @@ public class ShoppingListServlet extends HttpServlet
             String item = request.getParameter("itemInput");
             list.add(item);
             session.setAttribute("list", list);
-            request.setAttribute("user", name);
+            String userSession = (String) session.getAttribute("username");
+            request.setAttribute("user", userSession);
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
 
           } else if (action.equals("delete"))
@@ -70,11 +71,13 @@ public class ShoppingListServlet extends HttpServlet
                 String itemToDelete = request.getParameter("radiolist");
                 list = (ArrayList<String>) session.getAttribute("list");
                 list.remove(list.indexOf(itemToDelete));
-                request.setAttribute("user", name);
+                String userSession = (String) session.getAttribute("username");
+                request.setAttribute("user", userSession);
                 getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
               } catch (IndexOutOfBoundsException e)
               {
-                request.setAttribute("user", name);
+                String userSession = (String) session.getAttribute("username");
+                request.setAttribute("user", userSession);
                 getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
               }
 
