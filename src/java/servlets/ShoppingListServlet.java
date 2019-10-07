@@ -43,26 +43,40 @@ public class ShoppingListServlet extends HttpServlet
             session.setAttribute("username", name);
             request.setAttribute("user", name);
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
-          } 
-        else if (action.equals(""))
+          } else if (action.equals(""))
           {
             session.removeAttribute("username");
             session.invalidate();
             getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
-          } 
-        else if (action.equals("add"))
+          } else if (action.equals("add"))
           {
             list = (ArrayList<String>) session.getAttribute("list");
             if (list == null)
               {
                 list = new ArrayList<>();
-                
+
               }
             //get item from textbox
             String item = request.getParameter("itemInput");
             list.add(item);
             session.setAttribute("list", list);
+            request.setAttribute("user", name);
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
+
+          } else if (action.equals("delete"))
+          {
+            try
+              {
+                String itemToDelete = request.getParameter("radiolist");
+                list = (ArrayList<String>) session.getAttribute("list");
+                list.remove(list.indexOf(itemToDelete));
+                request.setAttribute("user", name);
+                getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
+              } catch (IndexOutOfBoundsException e)
+              {
+                request.setAttribute("user", name);
+                getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
+              }
 
           }
 

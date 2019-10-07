@@ -25,12 +25,19 @@
             <input type="submit" value="Add">
         </form>
 
-        <ul>
+        <div>
             <c:if test="${list != null}">
-                <c:forEach var="itemAdded" items="${list}">
-                    <li> ${itemAdded} </li>
+                <form action="ShoppingList" method="post">
+                    <c:forEach var="itemAdded" items="${list}">
+                        <input type="radio" name="radiolist" value="${itemAdded}"> ${itemAdded}<br>
                     </c:forEach>
-                </c:if>
-        </ul>
+                        <input type="hidden" name="action" value="delete">
+                        <br>
+                        <input type="submit" value="Delete">
+                </form>
+            </c:if>
+
+
+        </div>
     </body>
 </html>
